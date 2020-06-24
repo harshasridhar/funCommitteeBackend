@@ -6,5 +6,4 @@ package com.fun.committee.model;
 public enum Role {
     ADMIN,
     USER,
-    TEAM_ADMIN
 }
