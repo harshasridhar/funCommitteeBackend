@@ -1,6 +1,7 @@
 package com.fun.committee.model.json;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fun.committee.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,9 @@ public class User {
     private String username;
 
     private String password;
+
+    private String name;
+
+    private Role role;
 
 }

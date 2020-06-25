@@ -17,7 +17,7 @@ public interface UserService extends UserDetailsService {
 
     UserEntity findUserByUsername(String username);
 
-    void addUser(User user, Role role)throws Exception;
+    void addUser(User user)throws Exception;
 
     void updateUser(UserEntity userEntity);
 

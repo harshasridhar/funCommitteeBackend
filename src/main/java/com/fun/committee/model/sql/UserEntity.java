@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "user")
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-public class UserEntity extends SecurityProperties.User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +23,9 @@ public class UserEntity extends SecurityProperties.User {
 
     @Column(unique = true)
     private String username;
+
+    @Column
+    private String name;
 
     @Column
     private String password;

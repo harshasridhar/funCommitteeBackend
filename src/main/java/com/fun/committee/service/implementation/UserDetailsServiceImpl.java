@@ -49,11 +49,12 @@ public class UserDetailsServiceImpl implements UserService{
 
 
     @Override
-    public void addUser(User user, Role role){
+    public void addUser(User user){
         UserEntity userEntity = new UserEntity();
+        userEntity.setName(user.getName());
         userEntity.setUsername(user.getUsername());
         userEntity.setPassword(bcryptEncoder.encode(user.getPassword()));
-        userEntity.setRole(role.name());
+        userEntity.setRole(user.getRole().name());
         userRepository.save(userEntity);
     }
 

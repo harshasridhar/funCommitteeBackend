@@ -23,7 +23,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseMessage registerUser(@RequestBody User user)throws Exception{
-        userService.addUser(user, Role.USER);
+        userService.addUser(user);
         ResponseMessage responseMessage = new ResponseMessage();
         responseMessage.setMessage("User added successfully!");
         return responseMessage;
