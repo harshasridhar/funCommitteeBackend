@@ -3,6 +3,7 @@ package com.fun.committee.model.sql;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by harshams on 25/06/2020
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,name = "question_type")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @EqualsAndHashCode
-public class QuestionEntity {
+public class QuestionEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +24,8 @@ public class QuestionEntity {
     @Column(name = "question", nullable = false, length = 300)
     @Lob
     private String question;
+
+    @Column
+    private String tag;
 
 }

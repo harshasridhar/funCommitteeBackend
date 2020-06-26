@@ -85,6 +85,7 @@ CREATE TABLE `question` (
   `question_type` varchar(31) NOT NULL,
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `question` longtext NOT NULL,
+  `tag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -118,4 +119,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-26 12:43:49
+-- Dump completed on 2020-06-26 15:25:20

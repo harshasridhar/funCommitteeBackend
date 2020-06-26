@@ -13,3 +13,5 @@ initialVersion=0
 finalVersion=$(sed -n 1p versionInformation.txt)
 echo "Upgrading db"
 sh upgradeDB.sh $initialVersion $finalVersion
+echo "Adding $mode data"
+mysql -uroot -proot $dbname < db_schemas/data/$mode.sql

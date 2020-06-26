@@ -7,12 +7,15 @@ import com.fun.committee.dao.McqRepository;
 import com.fun.committee.dao.OptionRepository;
 import com.fun.committee.model.QuestionType;
 import com.fun.committee.model.json.Question;
+import com.fun.committee.model.json.QuestionList;
 import com.fun.committee.model.sql.DescriptiveEntity;
 import com.fun.committee.model.sql.McqEntity;
 import com.fun.committee.model.sql.OptionEntity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +38,7 @@ public class QuestionService {
                 McqEntity mcqEntity = new McqEntity();
                 mcqEntity.setQuestion(question.getQuestion());
                 mcqEntity.setHasOtherOption(question.getHasOtherOption());
+                mcqEntity.setTag(question.getTag());
                 List<OptionEntity> options = mcqEntity.getOptions();
                 for(String option: question.getOptions()){
                     OptionEntity optionEntity = new OptionEntity();
@@ -54,6 +58,29 @@ public class QuestionService {
         }catch (Exception e){
             throw e;
         }
+    }
+
+    public QuestionList getQuestions(){
+        QuestionList questionList = new QuestionList();
+        List<Question> questions = new ArrayList<>();
+        for(McqEntity mcqEntity: mcqRepository.findAll()){
+            Question question = new Question();
+            question.setQuestionType(QuestionType.MCQ);
+            BeanUtils.copyProperties(mcqEntity,question);
+            question.setOptions(new ArrayList<>());
+            for(OptionEntity optionEntity: mcqEntity.getOptions()){
+                question.getOptions().add(optionEntity.getValue());
+            }
+            questions.add(question);
+        }
+        for(DescriptiveEntity descriptiveEntity: descriptiveRepository.findAll()){
+            Question question = new Question();
+            question.setQuestionType(QuestionType.DESCRIPTIVE);
+            BeanUtils.copyProperties(descriptiveEntity,question);
+            questions.add(question);
+        }
+        questionList.setList(questions);
+        return questionList;
     }
 
 }
