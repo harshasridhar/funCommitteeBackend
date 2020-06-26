@@ -31,6 +31,22 @@ CREATE TABLE `descriptive` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `has_answered_entity`
+--
+
+DROP TABLE IF EXISTS `has_answered_entity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `has_answered_entity` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `answer` varchar(255) DEFAULT NULL,
+  `questionId` bigint(20) DEFAULT NULL,
+  `userId` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `has_options`
 --
 
@@ -71,7 +87,7 @@ CREATE TABLE `options` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +103,7 @@ CREATE TABLE `question` (
   `question` longtext NOT NULL,
   `tag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +123,7 @@ CREATE TABLE `user` (
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_sb8bbouer5wak8vyiiy4pf2bx` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -119,4 +135,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-26 15:25:20
+-- Dump completed on 2020-06-26 20:40:59
