@@ -2,14 +2,13 @@ package com.fun.committee.controller;
 
 import com.fun.committee.ErrorCode;
 import com.fun.committee.FunCommitteeException;
-import com.fun.committee.model.json.Answers;
-import com.fun.committee.model.json.Question;
-import com.fun.committee.model.json.QuestionList;
-import com.fun.committee.model.json.ResponseMessage;
+import com.fun.committee.model.json.*;
 import com.fun.committee.service.QuestionService;
 import com.fun.committee.service.interfaces.HasAnsweredService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 /**
  * Created by harshams on 25/06/2020
@@ -44,5 +43,13 @@ public class QuestionController {
         responseMessage.setMessage("Questionaire submitted successfully");
         hasAnsweredService.submitQuestionaire(answers);
         return responseMessage;
+    }
+
+    @GetMapping("/answer")
+    public AnswersList getAnswers(@RequestParam String username, Principal principal)throws Exception{
+        if(!username.equalsIgnoreCase(principal.getName())){
+            throw new FunCommitteeException(ErrorCode.INVALID_DATA_ACCESS,"Invalid Data Access, this incident will be reported");
+        }
+        return hasAnsweredService.getAnswers(username);
     }
 }

@@ -6,7 +6,8 @@ package com.fun.committee;
 public enum ErrorCode {
 
     INTERNAL_SERVER_ERROR(2000),
-    INVALID_ARGUMENTS(2001);
+    INVALID_ARGUMENTS(2001),
+    INVALID_DATA_ACCESS(2002);
 
     private long errorCode;
 

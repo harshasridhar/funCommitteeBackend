@@ -13,14 +13,10 @@ import java.util.List;
  */
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Answers {
+public class AnswersList {
 
-    private String type = "answers";
+    private String type = "answersList";
 
-    private String username;
-
-    private Long id;
-
-    private List<QuestionIdAnswer> list;
+    private List<Answers> list;
 
 }
