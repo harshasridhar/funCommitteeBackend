@@ -9,6 +9,6 @@ echo "Upgrading db to version $finalVersion"
 while [ $currentVersion -lt $finalVersion ]
 do
 	currentVersion=`expr $currentVersion + 1`
-	cat db_schemas/v$currentVersion/schema.sql | mysql -uroot -ppassword funcommitteebackend
-	echo -e "Upgraded to version v$currentVersion"
+	cat db_schemas/v$currentVersion/schema.sql | mysql -uroot -proot funcommitteebackend
+	echo "Upgraded to version v$currentVersion"
 done

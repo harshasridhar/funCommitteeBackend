@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `descriptive`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `descriptive` (
-  `answer` longtext NOT NULL,
+  `answer` longtext,
   `question_id` bigint(20) NOT NULL,
   PRIMARY KEY (`question_id`),
   CONSTRAINT `FKqltr1r37uabd5440u4qyuy6e4` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`)
@@ -53,8 +53,7 @@ DROP TABLE IF EXISTS `mcq`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mcq` (
-  `answer` varchar(255) NOT NULL,
-  `hasOtherOption` tinyint(1) DEFAULT 0,
+  `hasOtherOption` tinyint(4) DEFAULT NULL,
   `question_id` bigint(20) NOT NULL,
   PRIMARY KEY (`question_id`),
   CONSTRAINT `FKcahcnnlyp2i1l3qi79pj8puor` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`)
@@ -70,7 +69,7 @@ DROP TABLE IF EXISTS `options`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `options` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `text` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -119,4 +118,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-25 19:59:21
+-- Dump completed on 2020-06-26 12:43:49

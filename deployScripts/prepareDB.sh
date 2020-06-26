@@ -1,6 +1,15 @@
-echo 'Deleting local database...';
-echo 'drop database funcommitteebackend;'| mysql -uroot -proot
-echo 'Creating local database funcommitteebackend...'
-echo 'create database funcommitteebackend;'| mysql -uroot -proot
-echo 'Adding Tables to database...'
-mysql -uroot -proot funcommitteebackend < v1/schema.sql
+#!/bin/bash
+if [ "$#" -ne 1 ]; then
+		echo "Usage: $0 test|prod"
+			exit 1
+fi
+mode=$1
+dbname="funcommitteebackend"
+echo "Deleting local database...";
+echo "drop database $dbname;"| mysql -uroot -proot
+echo "Creating local database $dbname..."
+echo "create database $dbname;"| mysql -uroot -proot
+initialVersion=0
+finalVersion=$(sed -n 1p versionInformation.txt)
+echo "Upgrading db"
+sh upgradeDB.sh $initialVersion $finalVersion
