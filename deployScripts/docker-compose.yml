@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  mysqldb:
+    image: mysql:8
+    volumes:
+      - ./db-data:/docker-entrypoint-initdb.d
+    networks:
+      - fun-committee-backend
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=funCommitteeBackend
+  web-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    networks:
+      - fun-committee-backend
+    depends_on:
+      - mysqldb
+networks:
+  fun-committee-backend:
+    driver: bridge

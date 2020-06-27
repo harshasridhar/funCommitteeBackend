@@ -1,4 +1,5 @@
 FROM java:8
-COPY ../target/committee-0.0.1-SNAPSHOT.jar backend.jar
+COPY committee-0.0.1-SNAPSHOT.jar backend.jar
+COPY startServer.sh startServer.sh
 EXPOSE 8081
-ENTRYPOINT["java","-jar","backend.jar"]
+ENTRYPOINT ["sh","startServer.sh"]

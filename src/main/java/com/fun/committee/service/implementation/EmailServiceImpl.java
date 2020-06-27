@@ -37,9 +37,6 @@ spring.mail.password = someoneacc2017@
         ms.setHost("smtp.gmail.com");
         ms.setUsername(configKeyValuesService.getStringConfigKeyValue(ConfigKeyValues.EMAIL_ID,ConfigKeyValues.DefaultValue.EMAIL_ID));
         ms.setPassword(configKeyValuesService.getStringConfigKeyValue(ConfigKeyValues.EMAIL_PASSWORD,ConfigKeyValues.DefaultValue.EMAIL_PASSWORD));
-        System.out.println(((JavaMailSenderImpl) emailSender).getUsername());
-        System.out.println(((JavaMailSenderImpl) emailSender).getPassword());
-
     }
 
     @Async

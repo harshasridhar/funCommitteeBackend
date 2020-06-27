@@ -31,5 +31,6 @@ build/
 .vscode/
 
 ##Custom Scripts
+deplyScripts/db-data
 deployScripts/db_schemas/data/prod.sql
 automationScripts/prod/
