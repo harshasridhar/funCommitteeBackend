@@ -17,6 +17,8 @@ public class AnswersList {
 
     private String type = "answersList";
 
+    private Double percentageCompletion;
+
     private List<Answers> list;
 
 }

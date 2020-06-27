@@ -32,6 +32,8 @@ public class HasAnsweredServiceImpl implements HasAnsweredService {
     CompositeDao compositeDao;
     @Autowired
     AnswerAttemptsRepository answerAttemptsRepository;
+    @Autowired
+    GameCompletionStatusRepository gameCompletionStatusRepository;
 
     public void submitQuestionaire(Answers answers)throws Exception{
         UserEntity userEntity = userRepository.findByUsername(answers.getUsername());
@@ -62,6 +64,9 @@ public class HasAnsweredServiceImpl implements HasAnsweredService {
         }
         AnswersList answersList = new AnswersList();
         answersList.setList(new ArrayList<>());
+        Double percentage = gameCompletionStatusRepository.getPercentageCompletionByUserId(userEntity.getId());
+        if(percentage!=null)
+            answersList.setPercentageCompletion(percentage);
         List<Long> userIds = userRepository.getOtherUserIds(userEntity.getId());
         for(Long userId: userIds) {
             List<QuestionIdAnswer> answeredEntities = compositeDao.getAnswersForUser(userId);
