@@ -8,6 +8,7 @@ import com.fun.committee.model.json.AnswerAttempt;
 import com.fun.committee.model.sql.AnswerAttemptsEntity;
 import com.fun.committee.model.sql.UserEntity;
 import com.fun.committee.service.interfaces.AnswerAttemptsService;
+import com.fun.committee.service.interfaces.GameCompletionStatusService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,16 @@ public class AnswerAttemptsServiceImpl implements AnswerAttemptsService {
     AnswerAttemptsRepository answerAttemptsRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    GameCompletionStatusService gameCompletionStatusService;
 
     public AnswerAttempt validateAttempt(AnswerAttempt answerAttempt)throws Exception{
         UserEntity userEntity = userRepository.findByUsername(answerAttempt.getUsername());
         if(userEntity == null){
             throw new FunCommitteeException(ErrorCode.INVALID_ARGUMENTS,"Invalid username");
+        }
+        if(gameCompletionStatusService.hasUserCompletedGame(userEntity.getId())){
+            return answerAttempt;
         }
         AnswerAttemptsEntity answerAttemptsEntity = answerAttemptsRepository.getByUserIdAndGuessId(userEntity.getId(),answerAttempt.getGuessId());
         if(answerAttemptsEntity == null){
@@ -36,6 +42,7 @@ public class AnswerAttemptsServiceImpl implements AnswerAttemptsService {
             answerAttemptsEntity.setUserId(userEntity.getId());
             answerAttemptsEntity.setGuessId(answerAttempt.getGuessId());
             answerAttemptsEntity.setRetriesLeft(MAX_RETRY_ATTEMPTS);
+
         }else{
             if(answerAttemptsEntity.getStatus().equalsIgnoreCase("CORRECT")){
                 answerAttempt.setStatus("CORRECT");
@@ -64,6 +71,7 @@ public class AnswerAttemptsServiceImpl implements AnswerAttemptsService {
         BeanUtils.copyProperties(answerAttemptsEntity,returnAnswerAttempt);
         returnAnswerAttempt.setUsername(userEntity.getUsername());
         returnAnswerAttempt.setAnswer(answerAttempt.getAnswer());
+        gameCompletionStatusService.refreshStatusForUserId(userEntity.getId());
         return returnAnswerAttempt;
     }
 }

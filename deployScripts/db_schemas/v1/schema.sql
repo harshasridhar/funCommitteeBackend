@@ -64,6 +64,24 @@ CREATE TABLE `descriptive` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `gameCompletionStatus`
+--
+
+DROP TABLE IF EXISTS `gameCompletionStatus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gameCompletionStatus` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `createTime` datetime(6) DEFAULT NULL,
+  `percentageCompletion` double DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `updateTime` datetime(6) DEFAULT NULL,
+  `userId` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `has_answered_entity`
 --
 
@@ -168,4 +186,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-27 18:37:15
+-- Dump completed on 2020-06-27 19:52:50

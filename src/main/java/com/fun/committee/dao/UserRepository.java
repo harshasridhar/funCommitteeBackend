@@ -20,6 +20,6 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
     UserEntity findByUsernameAndPassword(String username, String password);
 
-    @Query("select id from UserEntity where id <> :userId")
+    @Query("select id from UserEntity where id <> :userId and role <> 'ADMIN'")
     List<Long> getOtherUserIds(@Param("userId")Long userId);
 }
