@@ -16,6 +16,8 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
     UserEntity findByUsername(String username);
 
+    UserEntity getById(Long id);
+
     UserEntity findByUsernameAndPassword(String username, String password);
 
     @Query("select id from UserEntity where id <> :userId")

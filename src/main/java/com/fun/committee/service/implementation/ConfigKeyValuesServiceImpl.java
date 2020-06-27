@@ -21,7 +21,7 @@ public class ConfigKeyValuesServiceImpl implements ConfigKeyValuesService {
         Boolean value = defaultValue;
         String dbValue = configKeyValueRepository.getByKey(key.name());
         if(dbValue != null){
-            value = Boolean.parseBoolean(dbValue);
+            value = dbValue.equals("1");
         }
         return value;
     }

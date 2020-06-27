@@ -16,6 +16,24 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `answerAttempts`
+--
+
+DROP TABLE IF EXISTS `answerAttempts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `answerAttempts` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `answer` varchar(255) DEFAULT NULL,
+  `guessId` bigint(20) DEFAULT NULL,
+  `retriesLeft` bigint(20) DEFAULT '2',
+  `status` varchar(255) DEFAULT NULL,
+  `userId` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `configKeyValue`
 --
 
@@ -150,4 +168,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-27 11:51:31
+-- Dump completed on 2020-06-27 18:37:15

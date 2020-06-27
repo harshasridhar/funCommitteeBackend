@@ -9,7 +9,11 @@ public enum ErrorCode {
     INVALID_ARGUMENTS(2001),
     INVALID_DATA_ACCESS(2002),
 
-    NOTIFICATIONS_DISABLED(3000);
+    NOTIFICATIONS_DISABLED(3000),
+
+    MAX_ATTEMPTS_EXHAUSTED(4000);
+
+
     private long errorCode;
 
     ErrorCode(int errorCode){

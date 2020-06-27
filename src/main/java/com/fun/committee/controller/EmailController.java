@@ -28,7 +28,8 @@ public class EmailController {
         if(!configKeyValuesService.getBooleanConfigKeyValue(ConfigKeyValues.EMAIL_NOTIFICATION_ENABLED,ConfigKeyValues.DefaultValue.EMAIL_NOTIFICATION_ENABLED)){
             throw new FunCommitteeException(ErrorCode.NOTIFICATIONS_DISABLED,"Notifications are disabled");
         }
-        emailService.sendEmail("hmsridhar@gigsky.com","Credentials","Your credentials are blah blah blah");
+//        emailService.sendEmail("hmsridhar@gigsky.com","Credentials","Your credentials are blah blah blah");
+        emailService.sendCredentialsEmail();
         ResponseMessage responseMessage = new ResponseMessage();
         responseMessage.setMessage("Emails Scheduled Sucessfully!");
         return responseMessage;

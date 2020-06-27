@@ -6,4 +6,6 @@ package com.fun.committee.service.interfaces;
 public interface EmailService {
 
     public void sendEmail(String to,String subject, String message);
+
+    public void sendCredentialsEmail()throws Exception;
 }

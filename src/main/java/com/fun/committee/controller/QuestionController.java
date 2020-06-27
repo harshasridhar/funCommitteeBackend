@@ -4,6 +4,7 @@ import com.fun.committee.ErrorCode;
 import com.fun.committee.FunCommitteeException;
 import com.fun.committee.model.json.*;
 import com.fun.committee.service.QuestionService;
+import com.fun.committee.service.interfaces.AnswerAttemptsService;
 import com.fun.committee.service.interfaces.HasAnsweredService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,8 @@ public class QuestionController {
     QuestionService questionService;
     @Autowired
     HasAnsweredService hasAnsweredService;
+    @Autowired
+    AnswerAttemptsService answerAttemptsService;
 
     @PostMapping("")
     public ResponseMessage addQuestion(@RequestBody Question question)throws Exception{
@@ -51,5 +54,14 @@ public class QuestionController {
             throw new FunCommitteeException(ErrorCode.INVALID_DATA_ACCESS,"Invalid Data Access, this incident will be reported");
         }
         return hasAnsweredService.getAnswers(username);
+    }
+
+    @PostMapping("/answer/submit")
+    public AnswerAttempt submitAnswer(@RequestBody AnswerAttempt answerAttempt, Principal principal)throws Exception{
+        if(!answerAttempt.getUsername().equalsIgnoreCase(principal.getName())){
+            throw new FunCommitteeException(ErrorCode.INVALID_DATA_ACCESS,"Invalid Data Access, this incident will be reported");
+        }
+        AnswerAttempt returnAnswerAttempt = answerAttemptsService.validateAttempt(answerAttempt);
+        return returnAnswerAttempt;
     }
 }
