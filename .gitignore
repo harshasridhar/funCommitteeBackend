@@ -29,3 +29,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+##Custom Scripts
+deployScripts/db_schemas/data/prod.sql
+automationScripts/prod/
