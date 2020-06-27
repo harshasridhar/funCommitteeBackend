@@ -65,8 +65,7 @@ public class HasAnsweredServiceImpl implements HasAnsweredService {
         AnswersList answersList = new AnswersList();
         answersList.setList(new ArrayList<>());
         Double percentage = gameCompletionStatusRepository.getPercentageCompletionByUserId(userEntity.getId());
-        if(percentage!=null)
-            answersList.setPercentageCompletion(percentage);
+        answersList.setPercentageCompletion(percentage == null ? 0 : percentage);
         List<Long> userIds = userRepository.getOtherUserIds(userEntity.getId());
         for(Long userId: userIds) {
             List<QuestionIdAnswer> answeredEntities = compositeDao.getAnswersForUser(userId);
