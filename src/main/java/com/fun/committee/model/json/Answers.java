@@ -21,6 +21,8 @@ public class Answers {
 
     private Long id;
 
+    private String status;
+
     private List<QuestionIdAnswer> list;
 
 }

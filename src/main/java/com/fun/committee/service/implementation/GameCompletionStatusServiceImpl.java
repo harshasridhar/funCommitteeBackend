@@ -37,7 +37,7 @@ public class GameCompletionStatusServiceImpl implements GameCompletionStatusServ
 
     public Boolean hasUserCompletedGame(Long userId){
         GameCompletionStatusEntity gameCompletionStatusEntity = gameCompletionStatusRepository.getByUserId(userId);
-        return gameCompletionStatusEntity.getStatus().equalsIgnoreCase("COMPLETED");
+        return gameCompletionStatusEntity == null ? false : gameCompletionStatusEntity.getStatus().equalsIgnoreCase("COMPLETED");
     }
 
     @Async

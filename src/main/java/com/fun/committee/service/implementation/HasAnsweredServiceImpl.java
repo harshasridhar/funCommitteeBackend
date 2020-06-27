@@ -2,10 +2,7 @@ package com.fun.committee.service.implementation;
 
 import com.fun.committee.ErrorCode;
 import com.fun.committee.FunCommitteeException;
-import com.fun.committee.dao.CompositeDao;
-import com.fun.committee.dao.HasAnsweredRepository;
-import com.fun.committee.dao.QuestionRepository;
-import com.fun.committee.dao.UserRepository;
+import com.fun.committee.dao.*;
 import com.fun.committee.model.json.Answers;
 import com.fun.committee.model.json.AnswersList;
 import com.fun.committee.model.json.QuestionIdAnswer;
@@ -33,6 +30,8 @@ public class HasAnsweredServiceImpl implements HasAnsweredService {
     HasAnsweredRepository hasAnsweredRepository;
     @Autowired
     CompositeDao compositeDao;
+    @Autowired
+    AnswerAttemptsRepository answerAttemptsRepository;
 
     public void submitQuestionaire(Answers answers)throws Exception{
         UserEntity userEntity = userRepository.findByUsername(answers.getUsername());
@@ -68,6 +67,9 @@ public class HasAnsweredServiceImpl implements HasAnsweredService {
             List<QuestionIdAnswer> answeredEntities = compositeDao.getAnswersForUser(userId);
             Answers answers = new Answers();
             answers.setId(userId);
+            String status = answerAttemptsRepository.getStatusByUserIdAndGuessId(userEntity.getId(),userId);
+            if(status != null)
+                answers.setStatus(status);
             answers.setList(answeredEntities);
             answersList.getList().add(answers);
         }

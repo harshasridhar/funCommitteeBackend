@@ -50,7 +50,9 @@ public class QuestionService {
                 mcqRepository.save(mcqEntity);
             }else if(QuestionType.DESCRIPTIVE == question.getQuestionType()){
                 DescriptiveEntity descriptiveEntity = new DescriptiveEntity();
-                BeanUtils.copyProperties(question,descriptiveEntity);
+//                BeanUtils.copyProperties(question,descriptiveEntity);
+                descriptiveEntity.setQuestion(question.getQuestion());
+                descriptiveEntity.setTag(question.getTag());
                 descriptiveRepository.save(descriptiveEntity);
             }else {
                 throw new FunCommitteeException(ErrorCode.INVALID_ARGUMENTS,"Invalid question type");
