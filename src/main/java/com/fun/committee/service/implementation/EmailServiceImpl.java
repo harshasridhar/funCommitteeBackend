@@ -26,11 +26,7 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     public ConfigKeyValuesService configKeyValuesService;
 
-    /*
-    spring.mail.host = smtp.gmail.com
-spring.mail.username = someoneacc2017@gmail.com
-spring.mail.password = someoneacc2017@
-     */
+
     @PostConstruct
     public void init(){
         JavaMailSenderImpl ms = (JavaMailSenderImpl) emailSender;
