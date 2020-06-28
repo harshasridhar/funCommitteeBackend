@@ -15,5 +15,5 @@ headers = {'Content-Type': 'application/json'}
 
 data = pd.read_csv(mode+'/emailIdPasswd.csv',header=None)
 for row in data.iterrows():
-	response = requests.post(url = "http://localhost:8081/authenticate",headers= headers, data = getCustomData(loginData,{'username':row[1][0],'password':row[1][1]}))
+	response = requests.post(url = "http://localhost:8081/authenticate",headers= headers, data = getCustomData(loginData,{'username':row[1][0],'password':row[1][2]}))
 	print(response.status_code)

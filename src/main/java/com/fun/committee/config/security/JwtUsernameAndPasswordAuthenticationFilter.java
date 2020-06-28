@@ -10,6 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     private JwtConfig jwtConfig;
 
     UserService userService;
+    ObjectMapper objectMapper;
 
     private Logger logger = LoggerFactory.getLogger(JwtUsernameAndPasswordAuthenticationFilter.class);
 
@@ -44,6 +46,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         this.authManager = authManager;
         this.jwtConfig = jwtConfig;
         this.userService = context.getBean(UserService.class);
+        this.objectMapper = new ObjectMapper();
 
         // By default, UsernamePasswordAuthenticationFilter listens to "/login" path.
         // In our case, we use "/auth". So, we need to override the defaults.
@@ -85,6 +88,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
             if(tokenExpiryTime.getTime() > now){
                 logger.info("Token valid");
                 response.addHeader(jwtConfig.getHeader(),jwtConfig.getPrefix() +token);
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                user.setPassword(null);
+                response.getWriter().write(objectMapper.writeValueAsString(user));
+                response.getWriter().flush();
                 return;
             }
         }
@@ -106,6 +113,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         logger.info("Updated user data with new token");
         // Add token to header
         response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + token);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        user.setPassword(null);
+        response.getWriter().write(objectMapper.writeValueAsString(user));
+        response.getWriter().flush();
     }
 
     @Override

@@ -36,7 +36,7 @@ for row in data.iterrows():
 	#print('Email '+email+ 'Name: '+name) 
 	password = pd.util.testing.rands_array(15, 1)[0]
 	response = requests.post(url = 'http://localhost:8081/user/register',headers = headers, data = getCustomData(addUser,{'username':email,'password':password,'name':name}))
-	f.write(email+","+password+"\n")
+	f.write(email+","+name+","+password+"\n")
 	print(response.status_code)
 	print(response.text)
 	print('\n')
