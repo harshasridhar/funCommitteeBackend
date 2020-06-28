@@ -74,6 +74,8 @@ public class HasAnsweredServiceImpl implements HasAnsweredService {
         List<Long> userIds = userRepository.getOtherUserIds(userEntity.getId());
         for(Long userId: userIds) {
             List<QuestionIdAnswer> answeredEntities = compositeDao.getAnswersForUser(userId);
+            if(answeredEntities.size() == 0)
+                continue;
             Answers answers = new Answers();
             answers.setId(userId);
             AnswerAttemptsEntity answerAttemptsEntity = answerAttemptsRepository.getAnswerAttemptsEntityByUserIdAndGuessId(userEntity.getId(), userId);
