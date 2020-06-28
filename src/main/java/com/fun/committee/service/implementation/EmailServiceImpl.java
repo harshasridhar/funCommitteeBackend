@@ -17,9 +17,11 @@ import org.springframework.util.StreamUtils;
 import javax.annotation.PostConstruct;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 /**
  * Created by harshams on 27/06/2020
@@ -31,6 +33,11 @@ public class EmailServiceImpl implements EmailService {
     public JavaMailSender emailSender;
     @Autowired
     public ConfigKeyValuesService configKeyValuesService;
+
+    private static final String EMAIL_TEMPLATE_USERNAME = "{{Username}}";
+    private static final String EMAIL_TEMPLATE_PASSWORD = "{{Password}}";
+    private static final String EMAIL_TEMPLATE_NAME = "{{Name}}";
+    private static final String EMAIL_TEMPLATE_IP_ADDRESS = "{{IP_ADDRESS}}";
 
 
     @PostConstruct
@@ -57,11 +64,24 @@ public class EmailServiceImpl implements EmailService {
 
     }
 
+    @Async
     public void sendCredentialsEmail()throws Exception{
-        String content;
-        content = StreamUtils.copyToString(
-                new ClassPathResource("credentials.html").getInputStream(), Charset.defaultCharset());
-        content = content.replace("{{Name}}","Harsha").replace("{{Username}}","hmsridhar@gigsky.com").replace("{{Password}}","Mypassword");
-        sendEmail("hmsridhar@gigsky.com","Portal Credentials",content);
+        Scanner scanner = new Scanner(new ClassPathResource("emailIdPasswd.csv").getInputStream());
+        scanner.useDelimiter("\n");
+        while(scanner.hasNext()){
+            String line = scanner.next();
+            String cols[] =line.split(",");
+            if(cols[0].equalsIgnoreCase("hmsridhar@gigsky.com")){
+                String content;
+                content = StreamUtils.copyToString(
+                        new ClassPathResource("credentials.html").getInputStream(), Charset.defaultCharset());
+                content = content.replace(EMAIL_TEMPLATE_NAME,cols[1])
+                        .replace(EMAIL_TEMPLATE_USERNAME,cols[0])
+                        .replace(EMAIL_TEMPLATE_PASSWORD,cols[2])
+                        .replace(EMAIL_TEMPLATE_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
+                sendEmail(cols[0],"Portal Credentials",content);
+            }
+        }
+
     }
 }
