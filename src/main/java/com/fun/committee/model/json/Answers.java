@@ -23,6 +23,10 @@ public class Answers {
 
     private String status;
 
+    private String answer;
+
+    private Long retriesLeft;
+
     private List<QuestionIdAnswer> list;
 
 }

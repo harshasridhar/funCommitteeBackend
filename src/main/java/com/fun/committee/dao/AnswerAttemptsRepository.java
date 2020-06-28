@@ -14,4 +14,7 @@ public interface AnswerAttemptsRepository extends CrudRepository<AnswerAttemptsE
 
     @Query("select status from AnswerAttemptsEntity where userId = :userId and guessId = :guessId")
     String getStatusByUserIdAndGuessId(@Param("userId")Long userId,@Param("guessId")Long guessId);
+
+    @Query("from AnswerAttemptsEntity where userId = :userId and guessId = :guessId")
+    AnswerAttemptsEntity getAnswerAttemptsEntityByUserIdAndGuessId(@Param("userId")Long userId,@Param("guessId")Long guessId);
 }

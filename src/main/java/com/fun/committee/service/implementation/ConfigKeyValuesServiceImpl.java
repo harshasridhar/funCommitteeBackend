@@ -45,4 +45,14 @@ public class ConfigKeyValuesServiceImpl implements ConfigKeyValuesService {
         }
         return value;
     }
+
+    @Override
+    public Long getLongConfigKeyValue(ConfigKeyValues key, Long defaultValue){
+        Long value = defaultValue;
+        String dbValue = configKeyValueRepository.getByKey(key.name());
+        if(dbValue != null){
+            value = Long.parseLong(dbValue);
+        }
+        return value;
+    }
 }

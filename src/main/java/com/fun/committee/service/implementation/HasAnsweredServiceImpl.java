@@ -1,13 +1,16 @@
 package com.fun.committee.service.implementation;
 
+import com.fun.committee.ConfigKeyValues;
 import com.fun.committee.ErrorCode;
 import com.fun.committee.FunCommitteeException;
 import com.fun.committee.dao.*;
 import com.fun.committee.model.json.Answers;
 import com.fun.committee.model.json.AnswersList;
 import com.fun.committee.model.json.QuestionIdAnswer;
+import com.fun.committee.model.sql.AnswerAttemptsEntity;
 import com.fun.committee.model.sql.HasAnsweredEntity;
 import com.fun.committee.model.sql.UserEntity;
+import com.fun.committee.service.interfaces.ConfigKeyValuesService;
 import com.fun.committee.service.interfaces.HasAnsweredService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,8 @@ public class HasAnsweredServiceImpl implements HasAnsweredService {
     AnswerAttemptsRepository answerAttemptsRepository;
     @Autowired
     GameCompletionStatusRepository gameCompletionStatusRepository;
+    @Autowired
+    ConfigKeyValuesService configKeyValuesService;
 
     public void submitQuestionaire(Answers answers)throws Exception{
         UserEntity userEntity = userRepository.findByUsername(answers.getUsername());
@@ -71,9 +76,16 @@ public class HasAnsweredServiceImpl implements HasAnsweredService {
             List<QuestionIdAnswer> answeredEntities = compositeDao.getAnswersForUser(userId);
             Answers answers = new Answers();
             answers.setId(userId);
-            String status = answerAttemptsRepository.getStatusByUserIdAndGuessId(userEntity.getId(),userId);
-            if(status != null)
-                answers.setStatus(status);
+            AnswerAttemptsEntity answerAttemptsEntity = answerAttemptsRepository.getAnswerAttemptsEntityByUserIdAndGuessId(userEntity.getId(), userId);
+            if(answerAttemptsEntity != null){
+                answers.setStatus(answerAttemptsEntity.getStatus());
+                answers.setAnswer(answerAttemptsEntity.getAnswer());
+                answers.setRetriesLeft(answerAttemptsEntity.getRetriesLeft());
+            }else{
+                answers.setStatus("UNATTEMPTED");
+                answers.setAnswer("");
+                answers.setRetriesLeft(configKeyValuesService.getLongConfigKeyValue(ConfigKeyValues.MAX_RETRY_ATTEMPTS,ConfigKeyValues.DefaultValue.MAX_RETRY_ATTEMPTS));
+            }
             answers.setList(answeredEntities);
             answersList.getList().add(answers);
         }

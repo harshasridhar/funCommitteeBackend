@@ -12,4 +12,6 @@ public interface ConfigKeyValuesService {
     String getStringConfigKeyValue(ConfigKeyValues key, String  defaultValue);
 
     Integer getIntegerConfigKeyValue(ConfigKeyValues key, Integer defaultValue);
+
+    Long getLongConfigKeyValue(ConfigKeyValues key, Long defaultValue);
 }
