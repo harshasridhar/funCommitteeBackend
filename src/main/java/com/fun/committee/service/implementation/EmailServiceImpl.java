@@ -5,6 +5,8 @@ import com.fun.committee.ErrorCode;
 import com.fun.committee.FunCommitteeException;
 import com.fun.committee.service.interfaces.ConfigKeyValuesService;
 import com.fun.committee.service.interfaces.EmailService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -39,6 +41,8 @@ public class EmailServiceImpl implements EmailService {
     private static final String EMAIL_TEMPLATE_NAME = "{{Name}}";
     private static final String EMAIL_TEMPLATE_IP_ADDRESS = "{{IP_ADDRESS}}";
 
+    private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
+
 
     @PostConstruct
     public void init(){
@@ -58,6 +62,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setText(messageText,true);
 
             emailSender.send(message);
+            logger.info("Email successfully sent to : "+to);
         }catch (Exception e){
             e.printStackTrace();
         }
