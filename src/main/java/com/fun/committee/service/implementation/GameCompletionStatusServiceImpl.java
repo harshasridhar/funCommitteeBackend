@@ -4,9 +4,12 @@ import com.fun.committee.dao.AnswerAttemptsRepository;
 import com.fun.committee.dao.GameCompletionStatusRepository;
 import com.fun.committee.dao.UserRepository;
 import com.fun.committee.model.json.AnswerAttempt;
+import com.fun.committee.model.json.GameStatus;
 import com.fun.committee.model.sql.AnswerAttemptsEntity;
 import com.fun.committee.model.sql.GameCompletionStatusEntity;
+import com.fun.committee.model.sql.UserEntity;
 import com.fun.committee.service.interfaces.GameCompletionStatusService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -67,5 +70,20 @@ public class GameCompletionStatusServiceImpl implements GameCompletionStatusServ
             gameCompletionStatusEntity.setPercentageCompletion(100.0 * correctCount / new Double(userIds.size()));
         }
         gameCompletionStatusRepository.save(gameCompletionStatusEntity);
+    }
+
+    @Override
+    public GameStatus getGameStatusForUser(String username){
+        GameStatus gameStatus = new GameStatus();
+        gameStatus.setUsername(username);
+        UserEntity userEntity = userRepository.findByUsername(username);
+        GameCompletionStatusEntity gameCompletionStatusEntity = gameCompletionStatusRepository.getByUserId(userEntity.getId());
+        if(gameCompletionStatusEntity!=null)
+            BeanUtils.copyProperties(gameCompletionStatusEntity,gameStatus);
+        else{
+            gameStatus.setPercentageCompletion(0.0);
+            gameStatus.setStatus("NOT_STARTED");
+        }
+        return gameStatus;
     }
 }

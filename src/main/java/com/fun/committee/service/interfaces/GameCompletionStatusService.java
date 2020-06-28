@@ -1,5 +1,6 @@
 package com.fun.committee.service.interfaces;
 
+import com.fun.committee.model.json.GameStatus;
 import com.fun.committee.model.sql.GameCompletionStatusEntity;
 
 /**
@@ -12,4 +13,6 @@ public interface GameCompletionStatusService {
     public void refreshStatusForUserId(Long userId);
 
     public Boolean hasUserCompletedGame(Long userId);
+
+    public GameStatus getGameStatusForUser(String username);
 }
