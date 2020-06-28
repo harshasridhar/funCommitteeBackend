@@ -17,5 +17,5 @@ public class UserList {
 
     private String type = "userList";
 
-    private List<String> list;
+    private List<User> list;
 }

@@ -66,7 +66,14 @@ public class UserDetailsServiceImpl implements UserService{
 
     @Override
     public UserList getUsers(String username){
-        List<String> users = userRepository.getOtherUsers(username);
+        List<UserEntity> userEntities = userRepository.getOtherUsers(username);
+        List<User> users = new ArrayList<>();
+        for(UserEntity userEntity: userEntities){
+            User user = new User();
+            user.setUsername(userEntity.getUsername());
+            user.setName(userEntity.getName());
+            users.add(user);
+        }
         UserList userList = new UserList();
         userList.setList(users);
         return userList;

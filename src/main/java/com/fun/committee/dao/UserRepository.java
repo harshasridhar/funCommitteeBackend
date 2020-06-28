@@ -23,6 +23,6 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
     @Query("select id from UserEntity where id <> :userId and role <> 'ADMIN'")
     List<Long> getOtherUserIds(@Param("userId")Long userId);
 
-    @Query("select username from UserEntity where username <> :username and role <> 'ADMIN' order by username")
-    List<String> getOtherUsers(@Param("username")String username);
+    @Query(" from UserEntity where username <> :username and role <> 'ADMIN' order by username")
+    List<UserEntity> getOtherUsers(@Param("username")String username);
 }
