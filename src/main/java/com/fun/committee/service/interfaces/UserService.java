@@ -2,6 +2,7 @@ package com.fun.committee.service.interfaces;
 
 import com.fun.committee.model.Role;
 import com.fun.committee.model.json.User;
+import com.fun.committee.model.json.UserList;
 import com.fun.committee.model.sql.UserEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,5 +21,7 @@ public interface UserService extends UserDetailsService {
     void addUser(User user)throws Exception;
 
     void updateUser(UserEntity userEntity);
+
+    UserList getUsers(String username);
 
 }

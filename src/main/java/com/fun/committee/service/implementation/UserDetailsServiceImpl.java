@@ -3,6 +3,7 @@ package com.fun.committee.service.implementation;
 import com.fun.committee.dao.UserRepository;
 import com.fun.committee.model.Role;
 import com.fun.committee.model.json.User;
+import com.fun.committee.model.json.UserList;
 import com.fun.committee.model.sql.UserEntity;
 import com.fun.committee.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,13 @@ public class UserDetailsServiceImpl implements UserService{
     @Override
     public void updateUser(UserEntity userEntity) {
         userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserList getUsers(String username){
+        List<String> users = userRepository.getOtherUsers(username);
+        UserList userList = new UserList();
+        userList.setList(users);
+        return userList;
     }
 }
