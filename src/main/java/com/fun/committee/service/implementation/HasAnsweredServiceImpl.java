@@ -71,25 +71,47 @@ public class HasAnsweredServiceImpl implements HasAnsweredService {
         answersList.setList(new ArrayList<>());
         Double percentage = gameCompletionStatusRepository.getPercentageCompletionByUserId(userEntity.getId());
         answersList.setPercentageCompletion(percentage == null ? 0 : percentage);
-        List<Long> userIds = userRepository.getOtherUserIds(userEntity.getId());
-        for(Long userId: userIds) {
-            List<QuestionIdAnswer> answeredEntities = compositeDao.getAnswersForUser(userId);
-            if(answeredEntities.size() == 0)
-                continue;
-            Answers answers = new Answers();
-            answers.setId(userId);
-            AnswerAttemptsEntity answerAttemptsEntity = answerAttemptsRepository.getAnswerAttemptsEntityByUserIdAndGuessId(userEntity.getId(), userId);
-            if(answerAttemptsEntity != null){
-                answers.setStatus(answerAttemptsEntity.getStatus());
-                answers.setAnswer(answerAttemptsEntity.getAnswer());
-                answers.setRetriesLeft(answerAttemptsEntity.getRetriesLeft());
-            }else{
-                answers.setStatus("UNATTEMPTED");
-                answers.setAnswer("");
-                answers.setRetriesLeft(configKeyValuesService.getLongConfigKeyValue(ConfigKeyValues.MAX_RETRY_ATTEMPTS,ConfigKeyValues.DefaultValue.MAX_RETRY_ATTEMPTS));
+        Boolean globalGameCompleted = configKeyValuesService.getBooleanConfigKeyValue(ConfigKeyValues.GLOBAL_GAME_COMPLETED,ConfigKeyValues.DefaultValue.GLOBAL_GAME_COMPLETED);
+        Double percentageCompletion = gameCompletionStatusRepository.getPercentageCompletionByUserId(userEntity.getId());
+        percentageCompletion = percentageCompletion == null ? 0.0 : percentageCompletion;
+        Boolean hasUserCompletedGame = percentageCompletion == 100.0 ? true : false;
+        if( globalGameCompleted || hasUserCompletedGame){
+            answersList.setPercentageCompletion(100.0);
+            List<UserEntity> users = userRepository.getOtherUsers(username);
+            for(UserEntity otherUser: users){
+                List<QuestionIdAnswer> answeredEntities = compositeDao.getAnswersForUser(otherUser.getId());
+                if (answeredEntities.size() == 0)
+                    continue;
+               Answers answers = new Answers();
+               answers.setId(otherUser.getId());
+               answers.setStatus("CORRRECT");
+               answers.setAnswer(otherUser.getUsername());
+               answers.setRetriesLeft(0L);
+                answers.setList(answeredEntities);
+                answersList.getList().add(answers);
             }
-            answers.setList(answeredEntities);
-            answersList.getList().add(answers);
+
+        }else {
+            List<Long> userIds = userRepository.getOtherUserIds(userEntity.getId());
+            for (Long userId : userIds) {
+                List<QuestionIdAnswer> answeredEntities = compositeDao.getAnswersForUser(userId);
+                if (answeredEntities.size() == 0)
+                    continue;
+                Answers answers = new Answers();
+                answers.setId(userId);
+                AnswerAttemptsEntity answerAttemptsEntity = answerAttemptsRepository.getAnswerAttemptsEntityByUserIdAndGuessId(userEntity.getId(), userId);
+                if (answerAttemptsEntity != null) {
+                    answers.setStatus(answerAttemptsEntity.getStatus());
+                    answers.setAnswer(answerAttemptsEntity.getAnswer());
+                    answers.setRetriesLeft(answerAttemptsEntity.getRetriesLeft());
+                } else {
+                    answers.setStatus("UNATTEMPTED");
+                    answers.setAnswer("");
+                    answers.setRetriesLeft(configKeyValuesService.getLongConfigKeyValue(ConfigKeyValues.MAX_RETRY_ATTEMPTS, ConfigKeyValues.DefaultValue.MAX_RETRY_ATTEMPTS));
+                }
+                answers.setList(answeredEntities);
+                answersList.getList().add(answers);
+            }
         }
         return answersList;
     }
